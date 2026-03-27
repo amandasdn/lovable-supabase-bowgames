@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { X, Star, Apple, Play } from "lucide-react";
-import { Game } from "@/data/games";
+import { Game, Review } from "@/data/games";
 
 interface GameModalProps {
   game: Game | null;
@@ -8,9 +8,22 @@ interface GameModalProps {
 }
 
 const GameModal = ({ game, onClose }: GameModalProps) => {
+  const [localReviews, setLocalReviews] = useState<Review[]>([]);
+  const [reviewName, setReviewName] = useState("");
+  const [reviewRating, setReviewRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState("");
+  const [error, setError] = useState("");
+
   useEffect(() => {
     if (game) {
       document.body.style.overflow = "hidden";
+      setLocalReviews(game.reviews);
+      setReviewName("");
+      setReviewRating(0);
+      setHoverRating(0);
+      setReviewComment("");
+      setError("");
     } else {
       document.body.style.overflow = "";
     }
@@ -21,30 +34,60 @@ const GameModal = ({ game, onClose }: GameModalProps) => {
 
   if (!game) return null;
 
+  const handleSubmitReview = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!reviewName.trim()) {
+      setError("Please enter your name.");
+      return;
+    }
+    if (reviewRating === 0) {
+      setError("Please select a rating.");
+      return;
+    }
+    if (reviewComment.trim().length < 3) {
+      setError("Comment must be at least 3 characters.");
+      return;
+    }
+    if (reviewComment.trim().length > 150) {
+      setError("Comment must be 150 characters or less.");
+      return;
+    }
+
+    const newReview: Review = {
+      user: reviewName.trim(),
+      rating: reviewRating,
+      comment: reviewComment.trim(),
+    };
+
+    setLocalReviews((prev) => [newReview, ...prev]);
+    setReviewName("");
+    setReviewRating(0);
+    setHoverRating(0);
+    setReviewComment("");
+  };
+
   return (
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center p-4"
       onClick={onClose}
     >
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-background/85 backdrop-blur-sm" />
 
-      {/* Modal */}
       <div
         className="relative bg-card border border-border rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-card animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-10 p-2 rounded-full bg-background/60 backdrop-blur text-foreground hover:bg-primary/20 transition-colors"
-          aria-label="Fechar"
+          aria-label="Close"
         >
           <X size={20} />
         </button>
 
         <div className="md:flex">
-          {/* Image */}
           <div className="md:w-2/5 flex-shrink-0">
             <img
               src={game.cover}
@@ -53,7 +96,6 @@ const GameModal = ({ game, onClose }: GameModalProps) => {
             />
           </div>
 
-          {/* Content */}
           <div className="p-6 md:p-8 md:w-3/5 flex flex-col gap-6">
             <div>
               <h2 className="text-2xl md:text-3xl font-extrabold mb-3">
@@ -64,7 +106,6 @@ const GameModal = ({ game, onClose }: GameModalProps) => {
               </p>
             </div>
 
-            {/* Download buttons */}
             <div className="flex flex-wrap gap-3">
               <a
                 href="#"
@@ -84,9 +125,9 @@ const GameModal = ({ game, onClose }: GameModalProps) => {
 
             {/* Reviews */}
             <div>
-              <h3 className="text-lg font-bold mb-4">Últimas Avaliações</h3>
+              <h3 className="text-lg font-bold mb-4">Latest Reviews</h3>
               <div className="flex flex-col gap-4">
-                {game.reviews.map((review, i) => (
+                {localReviews.map((review, i) => (
                   <div
                     key={i}
                     className="bg-muted/50 rounded-xl p-4 border border-border"
@@ -115,6 +156,81 @@ const GameModal = ({ game, onClose }: GameModalProps) => {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Submit Review Form */}
+            <div className="border-t border-border pt-6">
+              <h3 className="text-lg font-bold mb-4">Submit a Review</h3>
+              <form onSubmit={handleSubmitReview} className="flex flex-col gap-4">
+                <div>
+                  <label className="text-sm font-semibold text-muted-foreground mb-1 block">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    value={reviewName}
+                    onChange={(e) => setReviewName(e.target.value)}
+                    placeholder="Your name"
+                    className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    maxLength={50}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold text-muted-foreground mb-1 block">
+                    Rating
+                  </label>
+                  <div className="flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setReviewRating(i + 1)}
+                        onMouseEnter={() => setHoverRating(i + 1)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        className="p-0.5 transition-transform hover:scale-110"
+                      >
+                        <Star
+                          size={24}
+                          className={
+                            i < (hoverRating || reviewRating)
+                              ? "fill-primary text-primary"
+                              : "text-muted-foreground/30"
+                          }
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold text-muted-foreground mb-1 block">
+                    Comment{" "}
+                    <span className="text-xs font-normal">
+                      ({reviewComment.length}/150)
+                    </span>
+                  </label>
+                  <textarea
+                    value={reviewComment}
+                    onChange={(e) => setReviewComment(e.target.value)}
+                    placeholder="Share your experience (3-150 characters)"
+                    rows={3}
+                    maxLength={150}
+                    className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
+                  />
+                </div>
+
+                {error && (
+                  <p className="text-sm text-destructive">{error}</p>
+                )}
+
+                <button
+                  type="submit"
+                  className="bg-gradient-primary text-primary-foreground font-semibold py-2.5 rounded-lg transition-transform hover:scale-[1.02] active:scale-95"
+                >
+                  Submit
+                </button>
+              </form>
             </div>
           </div>
         </div>

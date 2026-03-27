@@ -1,5 +1,6 @@
 import { Apple, Play } from "lucide-react";
 import { Game } from "@/data/games";
+import bowLogo from "@/assets/bow-games-logo.png";
 
 interface HeroSectionProps {
   game: Game;
@@ -11,7 +12,6 @@ const HeroSection = ({ game }: HeroSectionProps) => {
       id="home"
       className="relative min-h-[85vh] flex items-end overflow-hidden"
     >
-      {/* Background image */}
       <img
         src={game.heroCover || game.cover}
         alt={game.title}
@@ -19,14 +19,19 @@ const HeroSection = ({ game }: HeroSectionProps) => {
         width={1920}
         height={1080}
       />
-      {/* Overlays */}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-transparent" />
 
-      {/* Content */}
       <div className="relative container mx-auto px-4 pb-20 pt-32 max-w-3xl mr-auto">
+        <img
+          src={bowLogo}
+          alt="Bow Games"
+          width={80}
+          height={80}
+          className="w-20 h-20 mb-6 drop-shadow-lg"
+        />
         <span className="inline-block text-xs font-semibold tracking-widest uppercase text-primary mb-4 bg-primary/10 px-3 py-1 rounded-full">
-          Último Lançamento
+          Latest Release
         </span>
         <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-4">
           {game.title}
