@@ -85,3 +85,27 @@
     @apply bg-background/80 backdrop-blur-xl border-border;
   }
 }
+
+/* Themed scrollbar for reviews */
+.reviews-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.reviews-scrollbar::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+  border-radius: 3px;
+}
+
+.reviews-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.4);
+  border-radius: 3px;
+}
+
+.reviews-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}
+
+.reviews-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.4) hsl(var(--background));
+}
