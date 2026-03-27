@@ -2,7 +2,7 @@ import { Twitter, Instagram, Mail, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer id="sobre" className="border-t border-border bg-card/50">
+    <footer id="about" className="border-t border-border bg-card/50">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
@@ -11,15 +11,15 @@ const Footer = () => {
               Bow Games
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              © 2024 Bow Games. Todos os direitos reservados.
+              © 2024 Bow Games. All rights reserved.
               <br />
-              Criando experiências inesquecíveis desde 2018.
+              Creating unforgettable experiences since 2018.
             </p>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold mb-4">Contato</h4>
+            <h4 className="font-bold mb-4">Contact</h4>
             <ul className="flex flex-col gap-3 text-sm text-muted-foreground">
               <li>
                 <a href="#" className="inline-flex items-center gap-2 hover:text-primary transition-colors">
@@ -41,19 +41,19 @@ const Footer = () => {
 
           {/* Address */}
           <div>
-            <h4 className="font-bold mb-4">Endereço</h4>
+            <h4 className="font-bold mb-4">Address</h4>
             <p className="text-sm text-muted-foreground leading-relaxed flex items-start gap-2">
               <MapPin size={16} className="mt-0.5 flex-shrink-0" />
               <span>
-                Av. Paulista, 1000 - Bela Vista
+                725 5th Avenue, Suite 2100
                 <br />
-                São Paulo, SP - 01310-100
+                Manhattan, NY 10022
                 <br />
-                Brasil
+                United States
               </span>
             </p>
             <a href="#" className="text-xs text-muted-foreground hover:text-primary transition-colors mt-4 inline-block">
-              Política de Privacidade
+              Privacy Policy
             </a>
           </div>
         </div>
