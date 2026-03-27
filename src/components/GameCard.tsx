@@ -24,7 +24,7 @@ const GameCard = ({ game, onDetails }: GameCardProps) => {
           onClick={() => onDetails(game)}
           className="w-full bg-gradient-primary text-primary-foreground font-semibold py-2.5 rounded-lg transition-transform hover:scale-[1.02] active:scale-95"
         >
-          Ver Mais Detalhes
+          View Details
         </button>
       </div>
     </div>
