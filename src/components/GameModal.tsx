@@ -1,29 +1,32 @@
-import { useState, useEffect } from "react";
-import { X, Star, Apple, Play } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { X, Star, Apple, Play, CheckCircle } from "lucide-react";
 import { Game, Review } from "@/data/games";
 
 interface GameModalProps {
   game: Game | null;
   onClose: () => void;
+  userReviews: Record<string, Review[]>;
+  onAddReview: (gameId: string, review: Review) => void;
 }
 
-const GameModal = ({ game, onClose }: GameModalProps) => {
-  const [localReviews, setLocalReviews] = useState<Review[]>([]);
+const GameModal = ({ game, onClose, userReviews, onAddReview }: GameModalProps) => {
   const [reviewName, setReviewName] = useState("");
   const [reviewRating, setReviewRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewComment, setReviewComment] = useState("");
   const [error, setError] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const reviewListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (game) {
       document.body.style.overflow = "hidden";
-      setLocalReviews(game.reviews);
       setReviewName("");
       setReviewRating(0);
       setHoverRating(0);
       setReviewComment("");
       setError("");
+      setShowSuccess(false);
     } else {
       document.body.style.overflow = "";
     }
@@ -33,6 +36,8 @@ const GameModal = ({ game, onClose }: GameModalProps) => {
   }, [game]);
 
   if (!game) return null;
+
+  const allReviews = [...(userReviews[game.id] || []), ...game.reviews];
 
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,17 +60,22 @@ const GameModal = ({ game, onClose }: GameModalProps) => {
       return;
     }
 
-    const newReview: Review = {
+    onAddReview(game.id, {
       user: reviewName.trim(),
       rating: reviewRating,
       comment: reviewComment.trim(),
-    };
+    });
 
-    setLocalReviews((prev) => [newReview, ...prev]);
     setReviewName("");
     setReviewRating(0);
     setHoverRating(0);
     setReviewComment("");
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+
+    if (reviewListRef.current) {
+      reviewListRef.current.scrollTop = 0;
+    }
   };
 
   return (
@@ -123,11 +133,14 @@ const GameModal = ({ game, onClose }: GameModalProps) => {
               </a>
             </div>
 
-            {/* Reviews */}
+            {/* Reviews list with scroll */}
             <div>
-              <h3 className="text-lg font-bold mb-4">Latest Reviews</h3>
-              <div className="flex flex-col gap-4">
-                {localReviews.map((review, i) => (
+              <h3 className="text-lg font-bold mb-4">User Reviews</h3>
+              <div
+                ref={reviewListRef}
+                className="flex flex-col gap-4 max-h-[300px] overflow-y-auto pr-2 reviews-scrollbar"
+              >
+                {allReviews.map((review, i) => (
                   <div
                     key={i}
                     className="bg-muted/50 rounded-xl p-4 border border-border"
@@ -161,6 +174,14 @@ const GameModal = ({ game, onClose }: GameModalProps) => {
             {/* Submit Review Form */}
             <div className="border-t border-border pt-6">
               <h3 className="text-lg font-bold mb-4">Submit a Review</h3>
+
+              {showSuccess && (
+                <div className="flex items-center gap-2 bg-primary/10 border border-primary/30 text-primary rounded-lg px-4 py-2.5 mb-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <CheckCircle size={18} />
+                  <span className="text-sm font-semibold">Review submitted successfully!</span>
+                </div>
+              )}
+
               <form onSubmit={handleSubmitReview} className="flex flex-col gap-4">
                 <div>
                   <label className="text-sm font-semibold text-muted-foreground mb-1 block">
