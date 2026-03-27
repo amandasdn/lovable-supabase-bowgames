@@ -1,16 +1,24 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Header from "@/components/Header";
+import HeroSection from "@/components/HeroSection";
+import GamesGrid from "@/components/GamesGrid";
+import GameModal from "@/components/GameModal";
+import Footer from "@/components/Footer";
+import { games, Game } from "@/data/games";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const [selectedGame, setSelectedGame] = useState<Game | null>(null);
+  const latestGame = games.find((g) => g.isLatest) || games[0];
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen">
+      <Header />
+      <HeroSection game={latestGame} />
+      <GamesGrid games={games} onDetails={setSelectedGame} />
+      <Footer />
+      <GameModal game={selectedGame} onClose={() => setSelectedGame(null)} />
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;

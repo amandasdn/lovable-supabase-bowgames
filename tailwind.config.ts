@@ -12,8 +12,13 @@ export default {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      montserrat: ['Montserrat', 'sans-serif'],
+    },
     extend: {
       colors: {
+        "surface-elevated": "hsl(var(--surface-elevated))",
+        "primary-glow": "hsl(var(--primary-glow))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
