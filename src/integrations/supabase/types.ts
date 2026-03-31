@@ -14,7 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      games: {
+        Row: {
+          android_link: string | null
+          apple_link: string | null
+          created_at: string
+          description: string
+          hero_image_url: string | null
+          id: string
+          image_url: string
+          is_latest: boolean
+          tagline: string
+          title: string
+        }
+        Insert: {
+          android_link?: string | null
+          apple_link?: string | null
+          created_at?: string
+          description?: string
+          hero_image_url?: string | null
+          id?: string
+          image_url?: string
+          is_latest?: boolean
+          tagline?: string
+          title: string
+        }
+        Update: {
+          android_link?: string | null
+          apple_link?: string | null
+          created_at?: string
+          description?: string
+          hero_image_url?: string | null
+          id?: string
+          image_url?: string
+          is_latest?: boolean
+          tagline?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      newsletter: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          comment_text: string
+          created_at: string
+          game_id: string
+          id: string
+          rating_stars: number
+          user_name: string
+        }
+        Insert: {
+          comment_text: string
+          created_at?: string
+          game_id: string
+          id?: string
+          rating_stars: number
+          user_name: string
+        }
+        Update: {
+          comment_text?: string
+          created_at?: string
+          game_id?: string
+          id?: string
+          rating_stars?: number
+          user_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
