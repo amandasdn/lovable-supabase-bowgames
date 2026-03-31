@@ -2,33 +2,43 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import GamesGrid from "@/components/GamesGrid";
-import GameModal from "@/components/GameModal";
+import GameDetailsModal from "@/components/GameDetailsModal";
+import ReviewsModal from "@/components/ReviewsModal";
+import NewsletterSection from "@/components/NewsletterSection";
 import Footer from "@/components/Footer";
-import { games, Game, Review } from "@/data/games";
+import { useGames, DbGame } from "@/hooks/useGames";
 
 const Index = () => {
-  const [selectedGame, setSelectedGame] = useState<Game | null>(null);
-  const [userReviews, setUserReviews] = useState<Record<string, Review[]>>({});
-  const latestGame = games.find((g) => g.isLatest) || games[0];
+  const { data: games = [], isLoading } = useGames();
+  const [detailsGame, setDetailsGame] = useState<DbGame | null>(null);
+  const [reviewsGame, setReviewsGame] = useState<DbGame | null>(null);
 
-  const handleAddReview = (gameId: string, review: Review) => {
-    setUserReviews((prev) => ({
-      ...prev,
-      [gameId]: [review, ...(prev[gameId] || [])],
-    }));
+  const latestGame = games.find((g) => g.is_latest) || games[0] || null;
+
+  const handleSeeMoreReviews = (game: DbGame) => {
+    setDetailsGame(null);
+    setReviewsGame(game);
   };
 
   return (
     <div className="min-h-screen">
       <Header />
       <HeroSection game={latestGame} />
-      <GamesGrid games={games} onDetails={setSelectedGame} />
+      {isLoading ? (
+        <div className="py-24 text-center text-muted-foreground">Loading games...</div>
+      ) : (
+        <GamesGrid games={games} onDetails={setDetailsGame} />
+      )}
+      <NewsletterSection />
       <Footer />
-      <GameModal
-        game={selectedGame}
-        onClose={() => setSelectedGame(null)}
-        userReviews={userReviews}
-        onAddReview={handleAddReview}
+      <GameDetailsModal
+        game={detailsGame}
+        onClose={() => setDetailsGame(null)}
+        onSeeMoreReviews={handleSeeMoreReviews}
+      />
+      <ReviewsModal
+        game={reviewsGame}
+        onClose={() => setReviewsGame(null)}
       />
     </div>
   );

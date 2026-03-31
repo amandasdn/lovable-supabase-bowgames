@@ -1,8 +1,8 @@
-import { Game } from "@/data/games";
+import { DbGame } from "@/hooks/useGames";
 
 interface GameCardProps {
-  game: Game;
-  onDetails: (game: Game) => void;
+  game: DbGame;
+  onDetails: (game: DbGame) => void;
 }
 
 const GameCard = ({ game, onDetails }: GameCardProps) => {
@@ -10,7 +10,7 @@ const GameCard = ({ game, onDetails }: GameCardProps) => {
     <div className="group bg-card rounded-xl overflow-hidden shadow-card border border-border transition-all duration-300 hover:border-primary/50 hover:shadow-glow">
       <div className="overflow-hidden aspect-[3/4]">
         <img
-          src={game.cover}
+          src={game.image_url}
           alt={game.title}
           loading="lazy"
           width={800}
