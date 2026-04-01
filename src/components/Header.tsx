@@ -5,6 +5,7 @@ import bowLogo from "@/assets/bow-games-logo.png";
 const navItems = [
   { label: "Home", href: "#home", sectionId: "home" },
   { label: "Games", href: "#games", sectionId: "games" },
+  { label: "Newsletter", href: "#newsletter", sectionId: "newsletter" },
   { label: "About", href: "#about", sectionId: "about" },
 ];
 
