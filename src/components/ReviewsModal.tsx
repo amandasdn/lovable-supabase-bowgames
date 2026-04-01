@@ -70,10 +70,10 @@ const ReviewsModal = ({ game, onClose }: ReviewsModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-background/90 backdrop-blur-sm" />
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px]" />
       <div
-        className="relative bg-card border border-border rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-card animate-in fade-in zoom-in-95 duration-200 flex flex-col"
+        className="relative bg-card border border-primary/30 rounded-2xl max-w-xl w-full max-h-[80vh] overflow-hidden shadow-card animate-in fade-in zoom-in-95 duration-200 flex flex-col ring-1 ring-primary/20"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-6 border-b border-border">

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import GamesGrid from "@/components/GamesGrid";
+import GamesCarousel from "@/components/GamesCarousel";
 import GameDetailsModal from "@/components/GameDetailsModal";
 import ReviewsModal from "@/components/ReviewsModal";
 import NewsletterSection from "@/components/NewsletterSection";
@@ -16,8 +16,18 @@ const Index = () => {
   const latestGame = games.find((g) => g.is_latest) || games[0] || null;
 
   const handleSeeMoreReviews = (game: DbGame) => {
-    setDetailsGame(null);
+    // Don't close detailsGame — keep it underneath
     setReviewsGame(game);
+  };
+
+  const handleCloseReviews = () => {
+    // Close only reviews modal; details modal stays open
+    setReviewsGame(null);
+  };
+
+  const handleCloseDetails = () => {
+    setDetailsGame(null);
+    setReviewsGame(null);
   };
 
   return (
@@ -27,18 +37,18 @@ const Index = () => {
       {isLoading ? (
         <div className="py-24 text-center text-muted-foreground">Loading games...</div>
       ) : (
-        <GamesGrid games={games} onDetails={setDetailsGame} />
+        <GamesCarousel games={games} onDetails={setDetailsGame} />
       )}
       <NewsletterSection />
       <Footer />
       <GameDetailsModal
         game={detailsGame}
-        onClose={() => setDetailsGame(null)}
+        onClose={handleCloseDetails}
         onSeeMoreReviews={handleSeeMoreReviews}
       />
       <ReviewsModal
         game={reviewsGame}
-        onClose={() => setReviewsGame(null)}
+        onClose={handleCloseReviews}
       />
     </div>
   );
