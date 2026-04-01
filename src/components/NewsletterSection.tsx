@@ -36,7 +36,7 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section id="newsletter" className="py-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10" />
       <div className="relative container mx-auto px-4 text-center max-w-2xl">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/20 mb-6">
