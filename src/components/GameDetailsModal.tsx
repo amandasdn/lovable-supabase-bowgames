@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { X, Star, Apple, Play } from "lucide-react";
 import { DbGame, useReviews } from "@/hooks/useGames";
+import ShareMenu from "./ShareMenu";
 
 interface GameDetailsModalProps {
   game: DbGame | null;
@@ -59,6 +60,12 @@ const GameDetailsModal = ({ game, onClose, onSeeMoreReviews }: GameDetailsModalP
                   <Play size={18} /> Google Play
                 </a>
               )}
+              <ShareMenu
+                title={game.title}
+                summary={game.tagline || game.description}
+                path="#games"
+                variant="outline"
+              />
             </div>
 
             {/* Latest 2 reviews */}
