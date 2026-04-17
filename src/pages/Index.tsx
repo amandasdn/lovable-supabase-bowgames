@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import GamesCarousel from "@/components/GamesCarousel";
+import DevLogSection from "@/components/DevLogSection";
 import GameDetailsModal from "@/components/GameDetailsModal";
 import ReviewsModal from "@/components/ReviewsModal";
 import NewsletterSection from "@/components/NewsletterSection";
@@ -39,6 +40,7 @@ const Index = () => {
       ) : (
         <GamesCarousel games={games} onDetails={setDetailsGame} />
       )}
+      <DevLogSection />
       <NewsletterSection />
       <Footer />
       <GameDetailsModal
