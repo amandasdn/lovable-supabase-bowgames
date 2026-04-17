@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { X, Calendar, Gamepad2 } from "lucide-react";
-import { DevLogEntry } from "@/data/devLogs";
+import { DbDevLog } from "@/hooks/useDevLogs";
+import ShareMenu from "./ShareMenu";
 
 interface DevLogModalProps {
-  entry: DevLogEntry | null;
+  entry: DbDevLog | null;
   onClose: () => void;
 }
 
@@ -88,13 +89,19 @@ const DevLogModal = ({ entry, onClose }: DevLogModalProps) => {
             )}
           </div>
 
-          <div className="pt-2">
+          <div className="pt-2 flex flex-wrap items-center gap-3">
             <button
               onClick={onClose}
               className="bg-gradient-primary text-primary-foreground font-semibold px-6 py-2.5 rounded-full transition-transform hover:scale-105"
             >
               Close
             </button>
+            <ShareMenu
+              title={entry.title}
+              summary={entry.excerpt}
+              path="#devlog"
+              variant="outline"
+            />
           </div>
         </div>
       </div>

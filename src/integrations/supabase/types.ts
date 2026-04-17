@@ -14,6 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      dev_logs: {
+        Row: {
+          created_at: string
+          excerpt: string
+          full_content: string
+          game_id: string | null
+          game_name: string
+          id: string
+          image_url: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          excerpt?: string
+          full_content?: string
+          game_id?: string | null
+          game_name?: string
+          id?: string
+          image_url?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          excerpt?: string
+          full_content?: string
+          game_id?: string | null
+          game_name?: string
+          id?: string
+          image_url?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dev_logs_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       games: {
         Row: {
           android_link: string | null
