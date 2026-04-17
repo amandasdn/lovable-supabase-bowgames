@@ -8,16 +8,21 @@ interface GameCardProps {
 const GameCard = ({ game, onDetails }: GameCardProps) => {
   return (
     <div className="group bg-card rounded-xl overflow-hidden shadow-card border border-border transition-all duration-300 hover:border-primary/50 hover:shadow-glow">
-      <div className="overflow-hidden aspect-[3/4]">
+      <button
+        type="button"
+        onClick={() => onDetails(game)}
+        className="block w-full overflow-hidden aspect-[3/4] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        aria-label={`View details for ${game.title}`}
+      >
         <img
           src={game.image_url}
           alt={game.title}
           loading="lazy"
           width={800}
           height={1066}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 cursor-pointer"
         />
-      </div>
+      </button>
       <div className="p-5">
         <h3 className="text-lg font-bold mb-3">{game.title}</h3>
         <button
