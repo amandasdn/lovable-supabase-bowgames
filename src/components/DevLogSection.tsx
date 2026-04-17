@@ -48,18 +48,23 @@ const DevLogSection = () => {
                 key={entry.id}
                 className="group flex flex-col bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:border-primary/50 hover:shadow-card transition-all duration-300"
               >
-                <div className="relative h-44 overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setOpenEntry(entry)}
+                  className="relative h-44 overflow-hidden block text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  aria-label={`Read more about ${entry.title}`}
+                >
                   <img
                     src={entry.image_url}
                     alt={entry.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/10 to-transparent" />
                   <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 bg-background/80 backdrop-blur text-primary border border-primary/30 text-xs px-2.5 py-1 rounded-full font-semibold">
                     <Gamepad2 size={11} /> Game: {entry.game_name}
                   </span>
-                </div>
+                </button>
 
                 <div className="flex flex-col flex-1 p-5 gap-3">
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
